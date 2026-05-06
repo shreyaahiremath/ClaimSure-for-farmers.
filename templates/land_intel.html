@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}{{ t('nav_land') }} — {{ t('brand') }}{% endblock %}
+{% block page_heading %}{{ t('nav_land') }}{% endblock %}
+{% block content %}
+<div class="grid-2">
+  <div class="card form-panel">
+    <div class="section-title-row" style="margin-bottom:1rem;">
+      <span class="title-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>
+      </span>
+      <h2 class="section-title" style="margin:0;font-size:1.05rem;">{{ t('nav_land') }}</h2>
+    </div>
+    <form method="post" data-loading class="form-grid" action="{{ url_for('land_intel') }}">
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ t('state') }} &amp; {{ t('district') }}
+        </legend>
+        <div class="form-grid" style="margin:0;">
+          <div class="field">
+            <label for="state">{{ t('state') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
+              <input id="state" name="state" type="text" value="Maharashtra" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="district">{{ t('district') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+              <input id="district" name="district" type="text" value="Pune" required>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          {{ t('land_size') }}
+        </legend>
+        <div class="field field-full">
+          <label for="land_size">{{ t('land_size') }}</label>
+          <div class="input-with-icon">
+            <span class="input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span>
+            <input id="land_size" name="land_size" type="number" step="0.01" min="0" value="3.5" required>
+          </div>
+        </div>
+      </fieldset>
+      <div class="field-full" style="grid-column:1/-1;">
+        <button type="submit" class="btn btn-primary">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="btn-text">{{ t('submit') }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div>
+    {% if result %}
+    <div class="card decision-card result-stagger">
+      <div class="result-hero">
+        <div>
+          <h2 class="section-title" style="margin:0;font-size:1rem;">{{ t('est_value') }}</h2>
+          <p class="result-hero-amount">₹ {{ "{:,.2f}".format(result.value) }}</p>
+        </div>
+        <div class="result-hero-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+      <div class="alert alert--success">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div><strong>{{ t('insight') }}:</strong> {{ t(result.insight_t) }}</div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">{{ t('market_trend') }}</span>
+        <span style="font-weight:600;max-width:62%;text-align:right;">{{ t(result.trend_t) }}</span>
+      </div>
+      <div class="stat-row" style="border:none;">
+        <span class="stat-label">{{ t('insight') }}</span>
+        <span style="color:var(--accent-glow);font-weight:600;">{{ t(result.insight_t) }}</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="card card-static"><p style="margin:0;color:var(--text-muted);line-height:1.6;">{{ t('card_land_desc') }}</p></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% block title %}{{ t('nav_claimsure') }} — {{ t('brand') }}{% endblock %}
+{% block page_heading %}{{ t('nav_claimsure') }}{% endblock %}
+{% block content %}
+{% if escalation_sent %}
+<div class="claimsure-banner" role="status">
+  <p><strong>IARDA</strong> — {{ t('escalation_success') }} <span class="ref-chip">{{ escalation_sent }}</span></p>
+  <a class="btn btn-gold" href="{{ url_for('claimsure_report_download', report_id=escalation_sent) }}">{{ t('download_report') }}</a>
+</div>
+{% endif %}
+
+<div class="claimsure-hero">
+  <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1400&q=80" alt="{{ t('claimsure_hero_alt') }}" width="1400" height="600" loading="lazy" decoding="async">
+  <div class="claimsure-hero-overlay">
+    <h2>ClaimSure</h2>
+    <p>{{ t('card_claimsure_desc') }} {{ t('status_geo_hint') }}</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card form-panel">
+    <div class="section-title-row" style="margin-bottom:1rem;">
+      <span class="title-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </span>
+      <h2 class="section-title" style="margin:0;font-size:1.1rem;">{{ t('nav_claimsure') }}</h2>
+    </div>
+    <div class="claimsure-aside-visual" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80" alt="" loading="lazy">
+    </div>
+    <form method="post" enctype="multipart/form-data" data-loading class="form-grid" action="{{ url_for('claimsure') }}" id="claimsure-form" style="margin-top:1rem;">
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          {{ t('crop_type') }} &amp; {{ t('land_size') }}
+        </legend>
+        <div class="form-grid" style="margin:0;">
+          <div class="field">
+            <label for="crop_type">{{ t('crop_type') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+              </span>
+              <select id="crop_type" name="crop_type" required>
+                <option value="wheat">{{ t('wheat') }}</option>
+                <option value="rice">{{ t('rice') }}</option>
+                <option value="cotton">{{ t('cotton') }}</option>
+                <option value="sugarcane" selected>{{ t('sugarcane') }}</option>
+                <option value="soybean">{{ t('soybean') }}</option>
+                <option value="maize">{{ t('maize') }}</option>
+                <option value="turmeric">{{ t('turmeric') }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="land_size">{{ t('land_size') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+              </span>
+              <input id="land_size" name="land_size" type="number" step="0.01" min="0" value="2.5" required>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {{ t('damage_type') }}
+        </legend>
+        <div class="form-grid" style="margin:0;">
+          <div class="field">
+            <label for="damage_type">{{ t('damage_type') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+              </span>
+              <select id="damage_type" name="damage_type" required>
+                <option value="none">{{ t('none') }}</option>
+                <option value="drought" selected>{{ t('drought') }}</option>
+                <option value="flood">{{ t('flood') }}</option>
+                <option value="pest">{{ t('pest') }}</option>
+                <option value="hail">{{ t('hail') }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="damage_date">{{ t('damage_date') }}</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </span>
+              <input id="damage_date" name="damage_date" type="date" value="2026-03-20" required>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ t('photo_upload') }}
+        </legend>
+        <p class="drop-zone-hint" style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--text-muted);">{{ t('status_geo_hint') }}</p>
+        <p class="alert alert--warn" style="margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:0.82rem;">{{ t('geo_exif_vs_visual') }}</p>
+        <div class="field field-full">
+          <label for="photo" class="visually-hidden">{{ t('photo_upload') }}</label>
+          <input class="sr-file" id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" tabindex="-1">
+          <div class="drop-zone" id="claimsure-drop" role="button" tabindex="0" aria-describedby="drop-hint">
+            <div class="drop-zone-icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p class="drop-zone-title">{{ t('photo_upload') }}</p>
+            <p class="drop-zone-hint" id="drop-hint">JPEG / PNG recommended · enable camera location</p>
+          </div>
+          <div id="claimsure-client-preview" class="preview-box" hidden>
+            <img src="" alt="">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section field-full">
+        <legend class="form-section-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ t('location') }}
+        </legend>
+        <span class="label">{{ t('location') }}</span>
+        <div class="radio-group" style="margin:0.5rem 0 0.65rem;">
+          <label class="radio-pill"><input type="radio" name="location_mode" value="auto"> {{ t('location_auto') }}</label>
+          <label class="radio-pill"><input type="radio" name="location_mode" value="manual" checked> {{ t('location_manual') }}</label>
+        </div>
+        <div class="input-with-icon field-full" style="margin-top:0;">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </span>
+          <input type="text" name="location" placeholder="{{ t('location_placeholder') }}" value="" style="width:100%;">
+        </div>
+      </fieldset>
+
+      <div class="field-full" style="grid-column:1/-1;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+        <button type="submit" class="btn btn-primary">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="btn-text">{{ t('submit') }}</span>
+        </button>
+      </div>
+    </form>
+    {% if result and result.preview %}
+    <p class="label" style="margin-top:1.25rem;">{{ t('preview') }}</p>
+    <div class="preview-box"><img src="{{ result.preview }}" alt=""></div>
+    {% endif %}
+  </div>
+
+  <div>
+    {% if result %}
+    <div class="card decision-card result-stagger">
+      <div class="result-hero">
+        <div>
+          <h2 class="section-title" style="margin:0;font-size:1rem;">{{ t('claim_result_title') }}</h2>
+          <p class="ref-chip" style="margin-top:0.5rem;display:inline-block;">{{ result.reference_id }}</p>
+          {% if result.show_amount %}
+          <p class="result-hero-amount">₹ {{ "{:,.2f}".format(result.claim_amount) }}</p>
+          {% else %}
+          <p class="amount-locked" aria-label="{{ t('amount_locked') }}">₹ ••••••</p>
+          <p style="margin:0.35rem 0 0;font-size:0.85rem;color:var(--warn);">{{ t('amount_locked_body') }}</p>
+          {% endif %}
+        </div>
+        <div class="result-hero-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+      </div>
+
+      <div class="geo-pills" aria-label="{{ t('geo_check_title') }}">
+        <span class="geo-pill {% if result.geo_verified %}ok{% else %}bad{% endif %}">GPS: {% if result.geo_verified %}✓{% else %}✗{% endif %}</span>
+        <span class="geo-pill {% if result.resolution_ok %}ok{% else %}bad{% endif %}">{{ t('verification_resolution') }}: {% if result.img_w %}{{ result.img_w }}×{{ result.img_h }}{% else %}—{% endif %}</span>
+        {% if result.gps_line %}
+        <span class="geo-pill ok">{{ t('verification_gps_coords') }}: {{ result.gps_line }}</span>
+        {% endif %}
+      </div>
+
+      {% if result.show_amount %}
+      <div class="alert alert--success">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div><strong>{{ t('geo_check_title') }}:</strong> {{ t('geo_ok_detail') }} {{ t('claim_status') }} — {{ t(result.status_key) }}.</div>
+      </div>
+      {% elif result.status_key == 'status_photo_required' %}
+      <div class="alert alert--danger">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div><strong>{{ t('status_photo_required') }}.</strong> {{ t('status_geo_hint') }}</div>
+      </div>
+      {% elif result.status_key == 'status_geo_missing' %}
+      <div class="alert alert--warn alert--pulse">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
+        <div><strong>{{ t('status_geo_missing') }}.</strong> {{ t('geo_fail_detail') }}</div>
+      </div>
+      {% elif result.status_key == 'status_evidence_weak' %}
+      <div class="alert alert--warn">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        <div><strong>{{ t('status_evidence_weak') }}.</strong> {{ t('resolution_fail_detail') }}</div>
+      </div>
+      {% elif result.status_key == 'status_review' %}
+      <div class="alert alert--warn">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+        <div><strong>{{ t('claim_status') }}:</strong> {{ t(result.status_key) }}</div>
+      </div>
+      {% endif %}
+
+      {% if result.show_amount and result.rec_priority %}
+      <div class="alert alert--warn alert--pulse">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div><strong>{{ t('rec_priority') }}</strong> — {{ t('confidence') }} {{ result.confidence }}%</div>
+      </div>
+      {% endif %}
+
+      <div class="stat-row">
+        <span class="stat-label">{{ t('claim_amount') }}</span>
+        <span class="stat-value">{% if result.show_amount %}₹ {{ "{:,.2f}".format(result.claim_amount) }}{% else %}—{% endif %}</span>
+      </div>
+
+      <div class="stat-row">
+        <span class="stat-label">{{ t('claim_status') }}</span>
+        <span>
+          {% if result.show_amount %}
+          <span class="badge badge-success">{{ t(result.status_key) }}</span>
+          {% elif result.status_key == 'status_geo_missing' or result.status_key == 'status_photo_required' %}
+          <span class="badge badge-danger">{{ t(result.status_key) }}</span>
+          {% elif result.status_key == 'status_evidence_weak' %}
+          <span class="badge badge-warn">{{ t(result.status_key) }}</span>
+          {% else %}
+          <span class="badge badge-warn">{{ t(result.status_key) }}</span>
+          {% endif %}
+        </span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">{{ t('confidence') }}</span>
+        <span class="stat-value">{{ result.confidence }}%</span>
+      </div>
+      <div class="confidence-wrap">
+        <div class="confidence-bar"><div class="confidence-fill" style="width:{{ result.confidence }}%;"></div></div>
+      </div>
+      <div class="stat-row recommend-block" style="flex-direction:column;align-items:flex-start;gap:0.35rem;border-bottom:none;">
+        <span class="stat-label">{{ t('recommendation') }}</span>
+        {% if result.show_amount %}
+        <ul>
+          {% if result.rec_upload %}<li><strong style="color:var(--text);">{{ t('rec_upload') }}</strong></li>{% endif %}
+          {% if result.rec_priority %}<li><strong style="color:var(--gold);">{{ t('rec_priority') }}</strong></li>{% endif %}
+        </ul>
+        {% elif result.status_key == 'status_review' %}
+        <p style="margin:0;font-size:0.92rem;color:var(--text-muted);">{{ t('claim_not_eligible_hint') }}</p>
+        {% else %}
+        <p style="margin:0;font-size:0.92rem;color:var(--text-muted);">{{ t('status_geo_hint') }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if escalation_available and result.show_amount %}
+    <div class="escalation-panel" style="margin-top:1rem;">
+      <h3 style="margin-top:0;">IARDA · {{ t('escalation_title') }}</h3>
+      <p class="intro">{{ t('escalation_intro') }}</p>
+      <form method="post" action="{{ url_for('claimsure_escalate') }}" data-loading>
+        <div class="field" style="margin-bottom:1rem;">
+          <label for="wait_days2">{{ t('wait_days_label') }}</label>
+          <select id="wait_days2" name="wait_days" required style="width:100%;max-width:280px;padding:0.72rem 0.95rem;border-radius:var(--radius-sm);background:rgba(3,12,10,0.65);border:1px solid var(--border);color:var(--text);font-family:inherit;">
+            {% for d in [3, 4, 5, 7, 10, 14, 21, 30, 45, 60] %}
+            <option value="{{ d }}" {% if d == 5 %}selected{% endif %}>{{ d }} {{ t('days_unit') }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <label class="fancy-check" style="margin-bottom:1rem;border-radius:var(--radius-sm);">
+          <input type="checkbox" name="office_informed" value="1">
+          <span class="fancy-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span class="fancy-check-text" style="flex:1;">{{ t('office_informed') }}</span>
+        </label>
+        <div class="field" style="margin-bottom:1rem;">
+          <label for="farmer_notes">{{ t('farmer_notes') }}</label>
+          <textarea id="farmer_notes" name="farmer_notes" rows="3" maxlength="2000" placeholder="{{ t('notes_placeholder') }}" style="width:100%;resize:vertical;border-radius:var(--radius-sm);padding:0.72rem 0.95rem;background:rgba(3,12,10,0.65);border:1px solid var(--border);color:var(--text);font-family:inherit;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="btn-text">{{ t('send_iarda') }}</span>
+        </button>
+      </form>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="card card-static" style="opacity:0.92;">
+      <div class="claimsure-aside-visual" style="margin-bottom:1rem;">
+        <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&q=80" alt="" loading="lazy" style="height:160px;">
+      </div>
+      <div class="section-title-row">
+        <span class="title-icon" style="color:var(--accent-glow);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+        <h2 class="section-title" style="margin:0;">{{ t('geo_check_title') }}</h2>
+      </div>
+      <p style="margin:0;color:var(--text-muted);line-height:1.65;">{{ t('status_geo_hint') }}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

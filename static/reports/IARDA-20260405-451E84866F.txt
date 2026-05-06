@@ -1,0 +1,32 @@
+========================================================================
+IARDA — Indian Agricultural Redressal & Disputes Authority
+ClaimSure non-payment / non-response escalation (official intake log)
+========================================================================
+Report ID:        IARDA-20260405-451E84866F
+Claim reference:  KY-TEST
+Generated (UTC):  2026-04-05T16:41:19Z
+
+— Farmer & contact —
+Name:             A
+Phone:            1
+Village / area:   V
+
+— Claim summary —
+Crop:             rice
+Land (acres):     2
+Declared damage:  drought
+Damage date:      2026-01-01
+Location text:    x
+GPS (EXIF):       1,2
+Estimated claim:  ₹ 4,000.00
+
+— Grievance statement (farmer attestation) —
+Expected bank credit within: 5 days from filing / intimation.
+Farmer states they informed agriculture / insurance office: YES
+Additional notes: —
+
+— System routing —
+This report is queued for the IARDA agricultural escalation desk for follow-up
+with the concerned insurance provider / state agriculture authority.
+(Demo build: stored as file + session confirmation — connect SMTP/API in production.)
+========================================================================
